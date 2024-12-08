@@ -65,11 +65,11 @@ function warthog_mnemo_to_pk(mnemo){
 
   let mnemo_hash = crypto.pbkdf2Sync(mnemo, 'mnemonic', 2048, 64, 'sha512');
   
-  let seed = "b'";
+  let seed = "b\"";
   for (const byte of mnemo_hash) {
     seed += uint8_to_byte_literal(byte);
   }
-  seed += "'"
+  seed += "\"";
 
   let prng = new PRNG(seed);
   while (true) {
@@ -88,4 +88,4 @@ function warthog_mnemo_to_pk(mnemo){
 }
 
 // create private key object
-let pk = ec.keyFromPrivate(warthog_mnemo_to_pk("SEED PHRASE"), 10)
+let pk = ec.keyFromPrivate(warthog_mnemo_to_pk("SEED PHRASE"), 10);
