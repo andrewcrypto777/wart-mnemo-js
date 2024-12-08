@@ -65,11 +65,15 @@ function warthog_mnemo_to_pk(mnemo){
 
   let mnemo_hash = crypto.pbkdf2Sync(mnemo, 'mnemonic', 2048, 64, 'sha512');
   
-  let seed = "b\"";
+  let seed = "";
   for (const byte of mnemo_hash) {
     seed += uint8_to_byte_literal(byte);
   }
-  seed += "\"";
+  if (seed.includes("'")) {
+    seed = "b\"" + seed + "\"";
+  }else{
+    seed = "b'" + seed + "'";
+  }
 
   let prng = new PRNG(seed);
   while (true) {
